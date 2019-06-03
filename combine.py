@@ -158,7 +158,23 @@ with open('master.csv', 'w', newline='') as csvfile:
 
 		writer.writerow(out_list)
 
+# Write Repeats to CSV file
+with open('repeats.csv', 'w', newline='') as csvfile:
+	writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
+	# top = ['Company Name', 'First Name', 'Last Name', 'Title', 
+	# 		'Address', 'City', 'Zip Code', 'State',
+	# 		'Phone', 'URL', 'Description', 'Employees', 'Parent Company']
+
+	# writer.writerow(top)
+
+	for key, val in repeat_dict.items():
+		# print(key, val)
+		writer.writerow([key])
+
+		for entry in val:
+			writer.writerow(entry)
+		
 
 
 
