@@ -53,7 +53,13 @@ for filename in os.listdir(pathName):
 				mast_dict[c_name]['title'] = row[2]
 				mast_dict[c_name]['address'] = row[4]
 				mast_dict[c_name]['city'] = row[5]
-				mast_dict[c_name]['state'] = row[7]
+				# Check for Michigan vs MI, etc
+				if row[7] == 'Michigan':
+					mast_dict[c_name]['state'] = 'MI'
+				elif row[7] == 'Ohio':
+					mast_dict[c_name]['state'] = 'OH'
+				else:
+					mast_dict[c_name]['state'] = row[7]
 				mast_dict[c_name]['zip'] = row[8]
 				mast_dict[c_name]['phone'] = row[9]
 				mast_dict[c_name]['url'] = row[10]
@@ -89,7 +95,13 @@ for filename in os.listdir(pathName):
 				mast_dict[c_name]['title'] = row[11]
 				# mast_dict[c_name]['address'] = row[4]
 				mast_dict[c_name]['city'] = row[3]
-				mast_dict[c_name]['state'] = row[4]
+				# Check for Michigan vs MI, etc
+				if row[4] == 'Michigan':
+					mast_dict[c_name]['state'] = 'MI'
+				elif row[4] == 'Ohio':
+					mast_dict[c_name]['state'] = 'OH'
+				else:
+					mast_dict[c_name]['state'] = row[4]
 				mast_dict[c_name]['zip'] = row[5]
 				mast_dict[c_name]['phone'] = row[8]
 				mast_dict[c_name]['email'] = row[9]
@@ -115,7 +127,14 @@ for filename in os.listdir(pathName):
 
 				mast_dict[c_name]['address'] = row[1]
 				mast_dict[c_name]['city'] = row[2]
-				mast_dict[c_name]['state'] = row[3]
+				# Check for Michigan vs MI, etc
+				if row[3] == 'Michigan':
+					mast_dict[c_name]['state'] = 'MI'
+				elif row[3] == 'Ohio':
+					mast_dict[c_name]['state'] = 'OH'
+				else:
+					mast_dict[c_name]['state'] = row[3]
+
 				mast_dict[c_name]['zip'] = row[4]
 				mast_dict[c_name]['phone'] = row[5]
 				# mast_dict[c_name]['email'] = row[9]
