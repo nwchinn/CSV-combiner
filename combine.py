@@ -47,8 +47,8 @@ for filename in os.listdir(pathName):
 				# TODO: Makes names not uppercase
 				# fullname = row[0] + '' + row[1]
 				# mast_dict[c_name]['contact'] = fullname
-				mast_dict[c_name]['firstname'] = row[0]
-				mast_dict[c_name]['lastname'] = row[1]
+				mast_dict[c_name]['firstname'] = row[0].title()
+				mast_dict[c_name]['lastname'] = row[1].title()
 				
 				mast_dict[c_name]['title'] = row[2]
 				mast_dict[c_name]['address'] = row[4]
@@ -83,8 +83,8 @@ for filename in os.listdir(pathName):
 				# Split into first/last names
 				hold = row[7].split()
 				# print('hold:', hold)
-				mast_dict[c_name]['firstname'] = hold[0]
-				mast_dict[c_name]['lastname'] = hold[1]
+				mast_dict[c_name]['firstname'] = hold[0].title()
+				mast_dict[c_name]['lastname'] = hold[1].title()
 
 				mast_dict[c_name]['title'] = row[11]
 				# mast_dict[c_name]['address'] = row[4]
