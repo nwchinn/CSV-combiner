@@ -141,7 +141,7 @@ for row in reader:
 
 
 # Write data to files
-with open('mailing-comp.csv', 'w', newline='') as csvfile:
+with open('email-comp.csv', 'w', newline='') as csvfile:
 	writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
 	top = ['Company Name', 'First Name', 'Last Name', 'Email', 'Phone']
@@ -159,9 +159,9 @@ with open('mailing-comp.csv', 'w', newline='') as csvfile:
 
 		writer.writerow(out_list)
 
-	print('Finished mailing-comp.csv')
+	print('Finished email-comp.csv')
 
-with open('mailing-tool.csv', 'w', newline='') as csvfile:
+with open('email-tool.csv', 'w', newline='') as csvfile:
 	writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
 	top = ['Company Name', 'First Name', 'Last Name', 'Email', 'Phone']
@@ -179,10 +179,10 @@ with open('mailing-tool.csv', 'w', newline='') as csvfile:
 
 		writer.writerow(out_list)
 
-	print('Finished mailing-tool.csv')
+	print('Finished email-tool.csv')
 
 
-with open('mailing-unsure.csv', 'w', newline='') as csvfile:
+with open('email-unsure.csv', 'w', newline='') as csvfile:
 	writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
 	top = ['Company Name', 'First Name', 'Last Name', 'Email', 'Phone']
@@ -200,4 +200,4 @@ with open('mailing-unsure.csv', 'w', newline='') as csvfile:
 
 		writer.writerow(out_list)
 
-	print('Finished mailing-unsure.csv')
+	print('Finished email-unsure.csv')
