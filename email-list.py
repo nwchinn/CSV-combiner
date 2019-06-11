@@ -108,6 +108,37 @@ for row in reader:
 		tool_dic[email]['last'] = hold[1].title()
 	tool_dic[email]['first'] = hold[0].title()
 
+# Get unsure from repeats
+pathName = os.getcwd()
+
+file = open(os.path.join(pathName, 'repeats.csv'), "r")
+reader = csv.reader(file, delimiter=',')
+
+counter = 0
+firstline = True
+for row in reader:
+	if firstline:
+		firstline = False
+		counter += 1
+		continue
+
+	if row[0] == 'ABREO':
+		break
+
+	email = row[0]
+	if email == 'pgc@teamaircenter.com':
+		continue
+
+	if email in unsure_dic:
+		print('EMAIL Repeat UNSURE MATCH: ', email)
+		print(email, unsure_dic[email])
+		continue
+
+	unsure_dic[email] = {}
+	unsure_dic[email]['first'] = row[1]
+	unsure_dic[email]['last'] = row[2]
+
+
 
 # Write data to files
 with open('mailing-comp.csv', 'w', newline='') as csvfile:
