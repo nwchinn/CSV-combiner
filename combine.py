@@ -32,7 +32,7 @@ for filename in os.listdir(pathName):
 	reader = csv.reader(file, delimiter=',')
 
 	if filename == 'AC-MI-Mailing-List.csv':
-		# print('u found it')
+		print('u found it')
 		firstline = True
 		for row in reader:
 			if firstline:
@@ -65,6 +65,7 @@ for filename in os.listdir(pathName):
 				mast_dict[c_name]['url'] = row[10]
 				mast_dict[c_name]['description'] = row[11]
 				mast_dict[c_name]['employees'] = row[12]
+				mast_dict[c_name]['is_Compressor'] = True
 			else:
 				# key = phone, val = []
 				if c_name not in repeat_dict:
@@ -108,10 +109,102 @@ for filename in os.listdir(pathName):
 				# mast_dict[c_name]['url'] = row[10]
 				mast_dict[c_name]['description'] = row[6]
 				# mast_dict[c_name]['employees'] = row[12]
+				mast_dict[c_name]['is_Compressor'] = True
 			else:
 				if c_name not in repeat_dict:
 					repeat_dict[c_name] = []
 				repeat_dict[c_name].append(row)
+
+	elif filename == 'Compressor Email List.csv':
+		firstline = True
+		for row in reader:
+			if firstline:
+				firstline = False
+				continue
+
+			c_name = row[3]
+			if c_name != None and row[1] != '':
+				if not check_exists(c_name, mast_dict):
+					mast_dict[c_name] = {}
+
+					# Split into first/last names
+					hold = row[1].split()
+					# print('hold:', hold)
+
+					mast_dict[c_name]['firstname'] = hold[0].title()
+					if len(hold) > 1:
+						mast_dict[c_name]['lastname'] = hold[1].title()
+					mast_dict[c_name]['email'] = row[0]
+					mast_dict[c_name]['is_Compressor'] = True
+
+				else:
+					if c_name not in repeat_dict:
+						repeat_dict[c_name] = []
+					repeat_dict[c_name].append(row)
+
+
+	elif filename == 'Air Center Tools Email List.csv':
+		firstline = True
+		for row in reader:
+			if firstline:
+				firstline = False
+				continue
+
+			c_name = row[2]
+			if not check_exists(c_name, mast_dict):
+				mast_dict[c_name] = {}
+
+				mast_dict[c_name]['firstname'] = row[1].title()
+				mast_dict[c_name]['lastname'] = row[0].title()
+				
+				mast_dict[c_name]['phone'] = row[4]
+				mast_dict[c_name]['email'] = row[3]
+
+				mast_dict[c_name]['is_Compressor'] = False
+			else:
+				# key = phone, val = []
+				if c_name not in repeat_dict:
+					repeat_dict[c_name] = []
+				row.append('TOOL')
+				repeat_dict[c_name].append(row)
+
+
+	elif filename == 'export from compressor.csv':
+		firstline = True
+		for row in reader:
+			if firstline:
+				firstline = False
+				continue
+
+			c_name = row[9]
+			if c_name != '' and row[2] != '':
+				if not check_exists(c_name, mast_dict):
+					mast_dict[c_name] = {}
+
+					# Get names
+					if row[3] == '':
+						hold = row[2].split()
+						if len(hold) > 1:
+							mast_dict[c_name]['firstname'] = hold[0].title()
+							mast_dict[c_name]['lastname'] = hold[-1].title()
+						else:
+							mast_dict[c_name]['firstname'] = row[2].title()
+					else:
+						mast_dict[c_name]['firstname'] = row[2].title()
+						mast_dict[c_name]['lastname'] = row[3].title()
+					
+
+					mast_dict[c_name]['phone'] = row[4]
+					mast_dict[c_name]['email'] = row[1]
+
+					if row[27] == 'Michigan':
+						mast_dict[c_name]['state'] = 'MI'
+
+					if row[12] == 'Air Compressors':
+						mast_dict[c_name]['is_Compressor'] = True
+					elif row[12] == 'Assembly Tool':
+						mast_dict[c_name]['is_Compressor'] = False
+
 
 	else:
 		firstline = True
@@ -142,6 +235,7 @@ for filename in os.listdir(pathName):
 				mast_dict[c_name]['description'] = row[11]
 				mast_dict[c_name]['employees'] = row[8]
 				mast_dict[c_name]['parent'] = row[10]
+				mast_dict[c_name]['is_Compressor'] = True
 			else:
 				if c_name not in repeat_dict:
 					repeat_dict[c_name] = []
@@ -152,9 +246,9 @@ for filename in os.listdir(pathName):
 with open('master.csv', 'w', newline='') as csvfile:
 	writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
-	top = ['Company Name', 'First Name', 'Last Name', 'Title', 
+	top = ['Company Name', 'Is Compressor', 'First Name', 'Last Name', 'Title', 
 			'Address', 'City', 'Zip Code', 'State',
-			'Phone', 'URL', 'Description', 'Employees', 'Parent Company']
+			'Phone', 'Email', 'URL', 'Description', 'Employees', 'Parent Company']
 
 	writer.writerow(top)
 
@@ -162,6 +256,7 @@ with open('master.csv', 'w', newline='') as csvfile:
 		out_list = []
 		# print('VAL:', val)
 		out_list.append(key)
+		out_list.append(val.get('is_Compressor', None))
 		out_list.append(val.get('firstname', None))
 		out_list.append(val.get('lastname', None))
 		out_list.append(val.get('title',None))
@@ -170,6 +265,7 @@ with open('master.csv', 'w', newline='') as csvfile:
 		out_list.append(val.get('zip',None))
 		out_list.append(val.get('state', None))
 		out_list.append(val.get('phone', None))
+		out_list.append(val.get('email', None))
 		out_list.append(val.get('url', None))
 		out_list.append(val.get('description', None))
 		out_list.append(val.get('employees', None))
@@ -194,7 +290,7 @@ with open('repeats.csv', 'w', newline='') as csvfile:
 		for entry in val:
 			writer.writerow(entry)
 		
-
+print('Finished, length of master = ', len(mast_dict))
 
 
 # print(mast_dict['826 Michigan'])
